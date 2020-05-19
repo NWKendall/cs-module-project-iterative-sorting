@@ -31,10 +31,48 @@ def bubble_sort(arr):
                 arr[j], arr[j+1] = arr[j+1], arr[j]
     return arr
 
-
 # STRETCH: implement the Count Sort function below
+# https://www.geeksforgeeks.org/counting-sort/
 def count_sort(arr, maximum=-1):
+    # counts number of times each character appears in array
+    # sorts them by frequency?
     # Your code here
 
+    # output character array containing sorted arr
+    output = [0 for i in range(maximum)]
+    
+    # create count array to store count for each value
+    count = [0 for i in range(maximum)]
 
-    return arr
+    
+    # For storing the resulting answer since the  
+    # string is immutable 
+    ans = ["" for _ in arr]
+
+    # store count of each character
+    for i in arr:
+        count[ord(i)] += 1
+    
+    # Change count[i] so that count[i] now contains actual 
+    # position of this character in output array 
+    for i in range(maximum):
+        count[i] += count[i-1]
+    
+    # Build the output character array 
+    for i in range(len(arr)):
+        output[count[ord(arr[i])]-1] = arr[i]
+        count[ord(arr[i])] -= 1
+
+    # Copy the output array to arr, so that arr now 
+    # contains sorted characters 
+    for i in range(len(arr)):
+        ans[i] = output[i]
+    return ans
+
+
+
+
+ar = "geeksforgeeks"
+
+ans = count_sort(ar, 256)
+print("".join(ans))
